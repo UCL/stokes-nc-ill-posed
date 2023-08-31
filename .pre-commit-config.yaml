@@ -1,0 +1,18 @@
+repos:
+  - repo: https://github.com/psf/black-pre-commit-mirror
+    # Using mypyc-compiled black 👆 (faster)
+    rev: 23.7.0
+    hooks:
+      - id: black-jupyter
+        # The latest version of Python supported by the project.
+        language_version: python3.10
+  - repo: https://github.com/nbQA-dev/nbQA
+    rev: 1.7.0
+    hooks:
+       - id: nbqa-isort
+         additional_dependencies: [isort==5.6.4]
+       - id: nbqa-ruff
+         additional_dependencies: [ruff==0.0.286]
+       - id: nbqa-mypy
+         additional_dependencies: [mypy==1.5.1]
+
