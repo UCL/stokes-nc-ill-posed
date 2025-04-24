@@ -8,7 +8,7 @@ Reproduction material for the paper
 The numerical experiments have been implemented using the Software [ngsolve](https://ngsolve.org/). 
 More precisely we used the software at commit `a8b62a566f421f3e7942ed95e7cdc586e326b33c` related to [this](https://github.com/NGSolve/ngsolve) github repository.
 
-The reproduction files are available in terms of `jupyter` notebooks in the folder `ngsolve`. 
+The reproduction files are available in terms of `jupyter` notebooks or `python` scripts in the folder `ngsolve`. 
 
 ## Section 5.1. Convergence Study: Stokes problem
 
@@ -112,11 +112,32 @@ epsilon norm = ...
 
 The values shown in the Fig.4 are taken from the final step of the fixed point iteration. 
 
+### Fig.5
+The `python` script to reproduce the results is `Stokes-non-conforming-large-gradients.py`. 
+There is a flag `new_scheme` on ll.24 of the script. If this flag is set to `true` the 
+Tikhov-regularized scheme is used (corresponds to the magenta crosses in the plot). 
+If this flag is `false` our scheme proposed in the paper is used (blue circles). 
+To reproduce the results from the paper the script should be run consecutively with 
+the parameters 
 
- 
+```
+N=1 
+hmax=1.0
 
+N=2 
+hmax=0.5
 
+N=4
+hmax=0.25
 
+N=8 
+hmax=0.125
 
+N=12 
+hmax=0.09375
 
+N=16 
+hmax = 0.0625
+```
 
+The errors are printed to the screen. 

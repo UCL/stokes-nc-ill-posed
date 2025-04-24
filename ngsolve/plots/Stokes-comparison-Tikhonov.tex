@@ -1,0 +1,136 @@
+\documentclass[tikz]{standalone}
+\usetikzlibrary{spy,shapes,shadows,calc,pgfplots.groupplots}
+\usepackage{amsmath}
+\usepackage{physics} 
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.3}
+\usepackage{amsmath}
+\DeclareFontFamily{OT1}{pzc}{}
+\DeclareFontShape{OT1}{pzc}{m}{it}{<-> s * [1.10] pzcmi7t}{}
+\DeclareMathAlphabet{\mathpzc}{OT1}{pzc}{m}{it}
+\newcommand{\ddtn}{\operatorname{dtn}}
+
+\pgfplotsset{
+  legend style = {font=\small}
+}
+
+\begin{document}
+\begin{tikzpicture}[scale = 1.0]
+
+
+\begin{groupplot}[
+    group style={
+        group size=3 by 1,
+        horizontal sep=35pt,
+        vertical sep=40pt,
+   },
+   %name = dtnplot,
+   height = 5.5cm,
+   width = 7.5cm,
+   every axis plot/.append style={thick},
+   %axis y line*=left,
+   legend pos = south east,
+   legend style = { column sep = 10pt, legend columns = 4, legend to name = grouplegend,},
+   ]
+
+    
+    \nextgroupplot[ 
+    ymode=log,
+    xmode=log,
+    ymax = 5e0,
+    ymin = 2e-1,
+    xlabel= { $ h$},
+    %legend pos = south west,
+    x label style={at={(axis description cs:0.65,+0.075)},anchor=east},
+	%title = {  $\norm{ u - \mathcal{L}_{\Delta t} \underline{u}_1 }_{L^2(Q)}$ },
+	title = { $\delta$-norm at $\delta=T/30$  },
+    legend style={at={(0.5,-0.1)},anchor=north},
+	]
+
+    \addplot[magenta,only marks,mark=x,mark options={scale=1.4}]  
+	table[x=h,y=new] {Stokes-delta-norm-Thalf-exgrad-epT30.dat}; 
+    \addplot[cyan,only marks,mark=o,mark options={scale=1.2}]  
+	table[x=h,y=original] {Stokes-delta-norm-Thalf-exgrad-epT30.dat};  
+
+    
+    \addplot[lightgray,dashed,ultra thick, forget plot] 
+	table[mark=none,x=h,y expr ={4.0*\thisrowno{0}}] {Stokes-delta-norm-Thalf-exgrad-epT30.dat};     
+
+
+    \nextgroupplot[ 
+    ymode=log,
+    xmode=log,
+    ymax = 2e-0,
+    ymin = 1e-2,
+    xlabel= { $ h$},
+    %legend pos = south west,
+    x label style={at={(axis description cs:0.65,+0.075)},anchor=east},
+	%title = {  $\norm{ u - \mathcal{L}_{\Delta t} \underline{u}_1 }_{L^2(Q)}$ },
+	title = { rel. error velocity $t=0$  },
+    legend style={at={(0.5,-0.1)},anchor=north},
+	]
+
+    \addplot[magenta,only marks,mark=x,mark options={scale=1.4}]  
+	table[x=h,y=new] {Stokes-vel-L2-t0-exgrad-epT30.dat};  
+    \addplot[cyan,only marks,mark=o,mark options={scale=1.2}]  
+	table[x=h,y=original] {Stokes-vel-L2-t0-exgrad-epT30.dat};
+
+    \addplot[lightgray,dashed,ultra thick,forget plot] 
+    	table[mark=none,x=h,y expr ={1.7*\thisrowno{0}}] {Stokes-vel-L2-t0-exgrad-epT30.dat}; % 
+
+    %\addplot[lightgray,dashed,ultra thick,forget plot] 
+    %	table[mark=none,x=h,y expr ={0.25*\thisrowno{0}}] {Stokes-vel-L2-t0-exgrad.dat}; % 
+    
+    \addplot[lightgray,dotted,ultra thick,forget plot] 
+    	table[mark=none,x=h,y expr ={1.5*\thisrowno{0}*\thisrowno{0}}] {Stokes-vel-L2-t0-exgrad-epT30.dat}; % 
+
+    %\addplot[lightgray,dashed,ultra thick, forget plot] 
+    %	table[mark=none,x=h,y expr ={0.6*\thisrowno{0}}] {Stokes-vel-L2-t0.dat};     
+
+
+    \nextgroupplot[ 
+    ymode=log,
+    xmode=log,
+    ymax = 2e-0,
+    ymin = 9e-4,
+    xlabel= { $ h$},
+    %legend pos = south west,
+    x label style={at={(axis description cs:0.65,+0.075)},anchor=east},
+	%title = {  $\norm{ u - \mathcal{L}_{\Delta t} \underline{u}_1 }_{L^2(Q)}$ },
+	title = { rel. error velocity $t=T$  },
+    legend style={at={(0.5,-0.1)},anchor=north},
+	]
+
+    \addplot[magenta,only marks,mark=x,mark options={scale=1.4}]  
+	table[x=h,y=new] {Stokes-vel-L2-tT-exgrad-epT30.dat};  \addlegendentry{ Tikhonov regularization}% 
+    \addplot[cyan,only marks,mark=o,mark options={scale=1.2}]  
+	table[x=h,y=original] {Stokes-vel-L2-tT-exgrad-epT30.dat};  \addlegendentry{our scheme}%
+ 
+    \addplot[lightgray,dashed,ultra thick] 
+    	table[mark=none,x=h,y expr ={1.5*\thisrowno{0}}] {Stokes-vel-L2-tT-exgrad-epT30.dat}; \addlegendentry{$ \mathcal{O}(h)$  }%      
+
+    \addplot[lightgray,dotted,ultra thick] 
+    	table[mark=none,x=h,y expr ={1.5e0*\thisrowno{0}*\thisrowno{0}}] {Stokes-vel-L2-tT-exgrad-epT30.dat}; \addlegendentry{$ \mathcal{O}(h^2)$  }%    
+
+    \end{groupplot}
+    \node at ($(group c1r1) + (7.5cm,- 3.0cm)$) {\ref{grouplegend}}; 
+    %\node (title) at ($(group c1r1.center)+(3.0cm,3.25cm)$) { \boxed{ \text{ Stokes, clean data} }  };
+
+
+
+\end{tikzpicture}
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
