@@ -114,9 +114,9 @@ The values shown in the Fig.4 are taken from the final step of the fixed point i
 
 ### Fig.5
 The `python` script to reproduce the results is `Stokes-non-conforming-large-gradients.py`. 
-There is a flag `new_scheme` on ll.24 of the script. If this flag is set to `true` the 
+There is a flag `new_scheme` on ll.24 of the script. If this flag is set to `True` the 
 Tikhov-regularized scheme is used (corresponds to the magenta crosses in the plot). 
-If this flag is `false` our scheme proposed in the paper is used (blue circles). 
+If this flag is `False` our scheme proposed in the paper is used (blue circles). 
 To reproduce the results from the paper the script should be run consecutively with 
 the parameters 
 
